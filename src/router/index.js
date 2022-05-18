@@ -18,6 +18,13 @@ const routes = [
   //   component: () =>
   //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   // },
+  {
+    path: "/country/:name",
+    name: "Country Covid information",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/CountryView.vue"),
+  },
 ];
 
 const router = createRouter({

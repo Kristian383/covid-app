@@ -2,7 +2,7 @@
   <div class="global-data-container">
     <div class="top-section">
       <h2>Current global data</h2>
-      <p>Up to and including <i>11 max 2022</i></p>
+      <p>Up to and including <b>11 max 2022</b></p>
     </div>
     <div class="data-section">
       <div v-for="data in dataTypes" :key="data.name">

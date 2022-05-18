@@ -1,18 +1,22 @@
 <template>
-  <nav class="navbar">
-    <div class="brand-title"><b>Covid</b> tracker</div>
-    <a href="#" class="toggle-button" @click="toggleNavbar">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </a>
-    <div class="navbar-links" :class="{ active: isActive }">
-      <ul>
-        <li><router-link to="/home">Home</router-link></li>
-        <li><router-link to="/">About</router-link></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="header-wrapper">
+    <nav class="navbar">
+      <div class="brand-title"><b>Covid</b> tracker</div>
+      <a href="#" class="toggle-button" @click="toggleNavbar">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </a>
+      <div class="navbar-links" :class="{ active: isActive }">
+        <ul>
+          <li>
+            <router-link active-class="active" to="/home">Home</router-link>
+          </li>
+          <li><router-link active-class="active" to="/">About</router-link></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -33,6 +37,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.header-wrapper {
+  width: 100%;
+
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
 .navbar {
   display: flex;
   position: relative;
@@ -41,8 +51,8 @@ export default {
   background-color: #fff;
   color: $font_black;
   padding: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 .brand-title {
@@ -75,7 +85,8 @@ export default {
   border-bottom: 4px solid transparent;
 }
 
-.navbar-links li:hover a {
+.navbar-links li:hover a,
+.navbar-links .active {
   color: $light_blue_hover;
   //   background-color: $f1_gray;
   border-bottom: 4px solid $light_blue_hover;
