@@ -1,7 +1,10 @@
 <template>
   <div class="home-container">
-    <GlobalData :today="getDate" />
-    <CountriesList :today="getDate" />
+    <the-loader v-if="!isLoaded"></the-loader>
+    <template v-else>
+      <GlobalData :today="getDate" />
+      <CountriesList :today="getDate" />
+    </template>
   </div>
 </template>
 
@@ -11,7 +14,7 @@ import CountriesList from "@/components/CountriesList.vue";
 import GlobalData from "@/components/GlobalData.vue";
 
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, inject } from "vue";
 
 export default {
   name: "HomeView",
@@ -21,6 +24,7 @@ export default {
   },
   setup() {
     const store = useStore();
+    const isLoaded = inject("isLoaded");
 
     const getDate = computed(() => {
       return store.getters.getDateTime;
@@ -28,6 +32,7 @@ export default {
 
     return {
       getDate,
+      isLoaded,
     };
   },
 };

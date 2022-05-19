@@ -118,6 +118,7 @@ export default createStore({
       });
 
       context.commit("loadGlobalData", responseData.Global);
+      return true;
       // console.log(responseData.Countries);
     },
     async loadCountryData(context, payload) {

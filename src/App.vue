@@ -6,7 +6,8 @@
 import TheHeader from "@/components/TheHeader.vue";
 
 import { useStore } from "vuex";
-import { onMounted } from "vue";
+import { onMounted, provide, ref } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -14,10 +15,22 @@ export default {
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
+    const isLoaded = ref(false);
 
     onMounted(() => {
-      store.dispatch("loadAllCountries");
+      store.dispatch("loadAllCountries").then((res) => {
+        if (res === true) {
+          isLoaded.value = true;
+        } else {
+          window.alert("Something went wrong on the server side.");
+          isLoaded.value = true;
+          router.push("/notFound");
+        }
+      });
     });
+
+    provide("isLoaded", isLoaded);
 
     return {};
   },

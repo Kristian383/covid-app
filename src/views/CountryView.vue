@@ -83,7 +83,6 @@ export default {
     onMounted(() => {
       isLoading.value = true;
       store.dispatch("loadCountryData", countrySlug).then((res) => {
-        console.log(res);
         if (res == 404) {
           isLoading.value = false;
           router.push("/notFound");
