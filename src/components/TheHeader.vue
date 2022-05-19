@@ -10,7 +10,9 @@
       <div class="navbar-links" :class="{ active: isActive }">
         <ul>
           <li>
-            <router-link active-class="active" to="/home">Home</router-link>
+            <router-link active-class="active" to="/countries"
+              >Countries</router-link
+            >
           </li>
           <!-- <li><router-link active-class="active" to="/">About</router-link></li> -->
         </ul>

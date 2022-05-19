@@ -4,6 +4,7 @@ export default createStore({
   state: {
     countries: [],
     countryData: [],
+    country: "",
     globalData: [],
     todayDate: "",
   },
@@ -17,16 +18,15 @@ export default createStore({
     getGlobalData(state) {
       return state.globalData;
     },
-    getCountryData(state) {
+    getCountryName(state) {
+      return state.country;
+    },
+    getcountryData(state) {
       return state.countryData;
     },
     getTotalCountryData(state) {
       if (!state.countryData.length) return;
       const lastDay = state.countryData[0];
-      // console.log(lastDay);
-      // if (lastDay == undefined) return;
-      // console.log(lastDay);
-
       const data = {
         totalCases: lastDay.confirmed,
         deaths: lastDay.deaths,
@@ -47,6 +47,7 @@ export default createStore({
           totalDeaths: el.TotalDeaths,
           newRecovered: el.NewRecovered,
           totalRecovered: el.TotalRecovered,
+          slug: el.Slug,
         };
         state.countries.push(country);
       });
@@ -65,7 +66,7 @@ export default createStore({
       // console.log(state.globalData);
     },
     loadCountryData(state, payload) {
-      //this puts data from newest to oldest
+      //this puts data from newest date to oldest
       for (let index = payload.length - 1; index >= 0; index--) {
         let dayData = payload[index];
         const data = {
@@ -79,9 +80,13 @@ export default createStore({
       }
       // payload.forEach((dayData) => {
       // });
+      if (payload.length) {
+        state.country = payload[0].Country;
+      }
     },
     emptyCountryData(state) {
       state.countryData = [];
+      state.country = "";
     },
   },
   actions: {
@@ -132,12 +137,12 @@ export default createStore({
 
       if (!response.ok) {
         console.log(response.status);
-        return false;
+        return response.status;
       }
 
       const responseData = await response.json();
-
       context.commit("loadCountryData", responseData);
+      return true;
     },
   },
   modules: {},

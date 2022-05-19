@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import CountriesView from "../views/CountriesView.vue";
 
 const routes = [
-  { path: "/", redirect: "/home" },
+  { path: "/", redirect: "/countries" },
 
   {
-    path: "/home",
-    name: "home",
-    component: HomeView,
+    path: "/countries",
+    name: "Countries",
+    component: CountriesView,
   },
   // {
   //   path: "/about",
@@ -24,6 +24,12 @@ const routes = [
     props: true,
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/CountryView.vue"),
+  },
+  {
+    path: "/:notFound(.*)*",
+    name: "Not found",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/NotFound.vue"),
   },
 ];
 
