@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
-    <GlobalData />
-    <CountriesList />
+    <GlobalData :today="getDate" />
+    <CountriesList :today="getDate" />
   </div>
 </template>
 
@@ -10,11 +10,34 @@
 import CountriesList from "@/components/CountriesList.vue";
 import GlobalData from "@/components/GlobalData.vue";
 
+import { useStore } from "vuex";
+import { computed, onMounted } from "vue";
+
 export default {
   name: "HomeView",
   components: {
     CountriesList,
     GlobalData,
+  },
+  setup() {
+    const store = useStore();
+
+    // const allCountries = computed(() => {
+    //   return store.getters.getAllCountries;
+    // });
+
+    const getDate = computed(() => {
+      return store.getters.getDateTime;
+    });
+
+    onMounted(() => {
+      store.dispatch("loadAllCountries");
+    });
+
+    return {
+      // allCountries,
+      getDate,
+    };
   },
 };
 </script>

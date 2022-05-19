@@ -2,50 +2,53 @@
   <div class="global-data-container">
     <div class="top-section">
       <h2>Current global data</h2>
-      <p>Up to and including <b>11 max 2022</b></p>
+      <p>
+        Up to and including <b>{{ today }} </b>
+      </p>
     </div>
     <div class="data-section">
-      <div v-for="data in dataTypes" :key="data.name">
-        <p class="data-name">{{ data.name }}</p>
-        <p>{{ data.population }}</p>
+      <!--v-for="data in dataTypes" :key="data.name" -->
+      <div>
+        <p class="data-name">Active Cases</p>
+        <p>{{ globalData.activeCases }}</p>
+      </div>
+      <div>
+        <p class="data-name">New Deaths</p>
+        <p>{{ globalData.newDeaths }}</p>
+      </div>
+      <div>
+        <p class="data-name">New Recovered</p>
+        <p>{{ globalData.newRecovered }}</p>
+      </div>
+      <div>
+        <p class="data-name">Total Confirmed</p>
+        <p>{{ globalData.totalConfirmed }}</p>
+      </div>
+      <div>
+        <p class="data-name">Total Deaths</p>
+        <p>{{ globalData.totalDeaths }}</p>
+      </div>
+      <div>
+        <p class="data-name">Total Recovered</p>
+        <p>{{ globalData.totalRecovered }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
+  props: ["today"],
   setup() {
-    const dataTypes = ref([
-      {
-        name: "Active cases",
-        population: 0,
-      },
-      {
-        name: "New deaths",
-        population: 0,
-      },
-      {
-        name: "New recovered",
-        population: 0,
-      },
-      {
-        name: "Total confirmed",
-        population: 0,
-      },
-      {
-        name: "Total deaths",
-        population: 0,
-      },
-      {
-        name: "Total recovered",
-        population: 0,
-      },
-    ]);
+    const store = useStore();
 
+    const globalData = computed(() => {
+      return store.getters.getGlobalData;
+    });
     return {
-      dataTypes,
+      globalData,
     };
   },
 };

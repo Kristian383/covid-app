@@ -1,8 +1,16 @@
 <template>
   <div class="countries-container">
     <div class="top-section">
-      <h3>A summary of new and total cases per country for 18. may, 2022</h3>
-      <input type="text" class="text-search" placeholder="Search country" />
+      <p>
+        A summary of new and total cases per country up to and including
+        <u>{{ today }}</u> :
+      </p>
+      <input
+        type="text"
+        class="text-search"
+        placeholder="Search country"
+        v-model.trim="inputText"
+      />
     </div>
     <div class="countries-list">
       <table>
@@ -19,27 +27,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Index">1</td>
+          <tr v-for="(country, index) in allCountries" :key="country.country">
+            <td data-label="Index">{{ index + 1 }}</td>
             <td data-label="Country">
-              <router-link to="/country/croatia">Croatia</router-link>
+              <router-link :to="'/country/' + country.country"
+                >{{ country.country }}
+              </router-link>
             </td>
-            <td data-label="Active cases">1,190</td>
-            <td data-label="Total confirmed">1,190</td>
-            <td data-label="New deaths">1,190</td>
-            <td data-label="Total deaths">1,190</td>
-            <td data-label="New recovered">1,190</td>
-            <td data-label="Total recovered">1,190</td>
-          </tr>
-          <tr>
-            <td data-label="Index">2</td>
-            <td data-label="Active cases">Serbia</td>
-            <td data-label="Active cases">1,190</td>
-            <td data-label="Total confirmed">1,190</td>
-            <td data-label="New deaths">1,190</td>
-            <td data-label="Total deaths">1,190</td>
-            <td data-label="New recovered">1,190</td>
-            <td data-label="Total recovered">1,190</td>
+            <td data-label="Active cases">{{ country.activeCases }}</td>
+            <td data-label="Total confirmed">{{ country.totalConfirmed }}</td>
+            <td data-label="New deaths">{{ country.newDeaths }}</td>
+            <td data-label="Total deaths">{{ country.totalDeaths }}</td>
+            <td data-label="New recovered">{{ country.newRecovered }}</td>
+            <td data-label="Total recovered">{{ country.totalRecovered }}</td>
           </tr>
         </tbody>
       </table>
@@ -48,7 +48,32 @@
 </template>
 
 <script>
-export default {};
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
+
+export default {
+  props: ["today"],
+  setup() {
+    // console.log(props.countries);
+    const inputText = ref();
+
+    const store = useStore();
+
+    const allCountries = computed(() => {
+      if (!inputText.value) return store.getters.getAllCountries;
+
+      return store.getters.getAllCountries.filter((country) => {
+        // console.log(country.country);
+        // console.log(inputText);
+        return country.country
+          .toLowerCase()
+          .includes(inputText.value.toLowerCase());
+      });
+    });
+
+    return { inputText, allCountries };
+  },
+};
 </script>
 <style lang="scss" scoped>
 @media screen and (max-width: 848px) {

@@ -22,6 +22,11 @@
         td {
             padding: 0.625em;
             text-align: center;
+
+            a {
+                color: inherit;
+                font-weight: 600;
+            }
         }
 
         th {
