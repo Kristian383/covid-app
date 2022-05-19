@@ -5,9 +5,21 @@
 <script>
 import TheHeader from "@/components/TheHeader.vue";
 
+import { useStore } from "vuex";
+import { onMounted } from "vue";
+
 export default {
   components: {
     TheHeader,
+  },
+  setup() {
+    const store = useStore();
+
+    onMounted(() => {
+      store.dispatch("loadAllCountries");
+    });
+
+    return {};
   },
 };
 </script>

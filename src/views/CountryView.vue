@@ -1,12 +1,21 @@
 <template>
   <div class="country-container">
-    <h2 class="country-title">Croatia</h2>
-    <h4>Total COVID Cases:</h4>
-    <h3 style="color: #424242">2,931,123</h3>
+    <h2 class="country-title">{{ country }}</h2>
+    <p>
+      Total COVID Cases up to and including
+      <u>{{ getTotalCountryData.date }}</u> :
+    </p>
+    <h3 style="color: #424242">
+      {{ numberWithCommas(getTotalCountryData.totalCases) }}
+    </h3>
     <h4 style="color: #000">Deaths:</h4>
-    <h3 style="color: #c22a2a">2,931,123</h3>
+    <h3 style="color: #c22a2a">
+      {{ numberWithCommas(getTotalCountryData.deaths) }}
+    </h3>
     <h4 style="color: #000">Recovered:</h4>
-    <h3 style="color: #69b34c">2,931,123</h3>
+    <h3 style="color: #69b34c">
+      {{ numberWithCommas(getTotalCountryData.recovered) }}
+    </h3>
     <div class="country-detail-container">
       <table>
         <thead>
@@ -19,19 +28,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Date">Friday 15th 2022</td>
-            <td data-label="Confirmed">2,222,222</td>
-            <td data-label="Deaths">1,190</td>
-            <td data-label="Recovered">1,190</td>
-            <td data-label="Active cases">1,190</td>
-          </tr>
-          <tr>
-            <td data-label="Date">Thursda 14th 2022</td>
-            <td data-label="Confirmed">2,222,222</td>
-            <td data-label="Deaths">1,190</td>
-            <td data-label="Recovered">1,190</td>
-            <td data-label="Active cases">1,190</td>
+          <tr v-for="dayData in countryData" :key="dayData.date">
+            <td data-label="Date">{{ dayData.date }}</td>
+            <td data-label="Confirmed">
+              {{ numberWithCommas(dayData.confirmed) }}
+            </td>
+            <td data-label="Deaths">{{ numberWithCommas(dayData.deaths) }}</td>
+            <td data-label="Recovered">
+              {{ numberWithCommas(dayData.recovered) }}
+            </td>
+            <td data-label="Active cases">
+              {{ numberWithCommas(dayData.active) }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -40,7 +48,38 @@
 </template>
 
 <script>
-export default {};
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { computed, onMounted, onUnmounted } from "vue";
+import numberWithCommas from "../helpers/numberFormat";
+
+export default {
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+
+    const country = router.currentRoute.value.params.name;
+
+    onMounted(() => {
+      store.dispatch("loadCountryData", country);
+    });
+
+    const countryData = computed(() => {
+      return store.getters.getCountryData;
+    });
+
+    const getTotalCountryData = computed(() => {
+      const data = store.getters.getTotalCountryData;
+      if (data === undefined) return 0;
+      return store.getters.getTotalCountryData;
+    });
+
+    onUnmounted(() => {
+      store.commit("emptyCountryData");
+    });
+    return { countryData, country, numberWithCommas, getTotalCountryData };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

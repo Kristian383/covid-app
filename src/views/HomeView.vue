@@ -11,7 +11,7 @@ import CountriesList from "@/components/CountriesList.vue";
 import GlobalData from "@/components/GlobalData.vue";
 
 import { useStore } from "vuex";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 
 export default {
   name: "HomeView",
@@ -22,20 +22,11 @@ export default {
   setup() {
     const store = useStore();
 
-    // const allCountries = computed(() => {
-    //   return store.getters.getAllCountries;
-    // });
-
     const getDate = computed(() => {
       return store.getters.getDateTime;
     });
 
-    onMounted(() => {
-      store.dispatch("loadAllCountries");
-    });
-
     return {
-      // allCountries,
       getDate,
     };
   },

@@ -12,7 +12,7 @@
           <li>
             <router-link active-class="active" to="/home">Home</router-link>
           </li>
-          <li><router-link active-class="active" to="/">About</router-link></li>
+          <!-- <li><router-link active-class="active" to="/">About</router-link></li> -->
         </ul>
       </div>
     </nav>
