@@ -19,6 +19,9 @@ export default createStore({
     },
   },
   mutations: {
+    // numberWithCommas(x) {
+    //   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // },
     loadAllCountries(state, payload) {
       payload.Countries.forEach((el) => {
         let country = {

@@ -10,27 +10,27 @@
       <!--v-for="data in dataTypes" :key="data.name" -->
       <div>
         <p class="data-name">Active Cases</p>
-        <p>{{ globalData.activeCases }}</p>
+        <p>{{ numberWithCommas(globalData.activeCases) }}</p>
       </div>
       <div>
         <p class="data-name">New Deaths</p>
-        <p>{{ globalData.newDeaths }}</p>
+        <p>{{ numberWithCommas(globalData.newDeaths) }}</p>
       </div>
       <div>
         <p class="data-name">New Recovered</p>
-        <p>{{ globalData.newRecovered }}</p>
+        <p>{{ numberWithCommas(globalData.newRecovered) }}</p>
       </div>
       <div>
         <p class="data-name">Total Confirmed</p>
-        <p>{{ globalData.totalConfirmed }}</p>
+        <p>{{ numberWithCommas(globalData.totalConfirmed) }}</p>
       </div>
       <div>
         <p class="data-name">Total Deaths</p>
-        <p>{{ globalData.totalDeaths }}</p>
+        <p>{{ numberWithCommas(globalData.totalDeaths) }}</p>
       </div>
       <div>
         <p class="data-name">Total Recovered</p>
-        <p>{{ globalData.totalRecovered }}</p>
+        <p>{{ numberWithCommas(globalData.totalRecovered) }}</p>
       </div>
     </div>
   </div>
@@ -39,6 +39,8 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import numberWithCommas from "../helpers/numberFormat";
+
 export default {
   props: ["today"],
   setup() {
@@ -49,6 +51,7 @@ export default {
     });
     return {
       globalData,
+      numberWithCommas,
     };
   },
 };

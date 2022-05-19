@@ -34,12 +34,24 @@
                 >{{ country.country }}
               </router-link>
             </td>
-            <td data-label="Active cases">{{ country.activeCases }}</td>
-            <td data-label="Total confirmed">{{ country.totalConfirmed }}</td>
-            <td data-label="New deaths">{{ country.newDeaths }}</td>
-            <td data-label="Total deaths">{{ country.totalDeaths }}</td>
-            <td data-label="New recovered">{{ country.newRecovered }}</td>
-            <td data-label="Total recovered">{{ country.totalRecovered }}</td>
+            <td data-label="Active cases">
+              {{ numberWithCommas(country.activeCases) }}
+            </td>
+            <td data-label="Total confirmed">
+              {{ numberWithCommas(country.totalConfirmed) }}
+            </td>
+            <td data-label="New deaths">
+              {{ numberWithCommas(country.newDeaths) }}
+            </td>
+            <td data-label="Total deaths">
+              {{ numberWithCommas(country.totalDeaths) }}
+            </td>
+            <td data-label="New recovered">
+              {{ numberWithCommas(country.newRecovered) }}
+            </td>
+            <td data-label="Total recovered">
+              {{ numberWithCommas(country.totalRecovered) }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -50,6 +62,7 @@
 <script>
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import numberWithCommas from "../helpers/numberFormat";
 
 export default {
   props: ["today"],
@@ -71,10 +84,11 @@ export default {
       });
     });
 
-    return { inputText, allCountries };
+    return { inputText, allCountries, numberWithCommas };
   },
 };
 </script>
+
 <style lang="scss" scoped>
 @media screen and (max-width: 848px) {
   @include max_848px_table;
